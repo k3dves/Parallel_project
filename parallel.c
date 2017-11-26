@@ -37,16 +37,42 @@ void answer(int curr_size, float coeff_curr[][3], float *x, int orig_size, float
 }
 
 int main() {
-	int n, i; scanf("%d", &n);
+	puts("Enter number of equations");
+	int n, i, j; scanf("%d", &n);
 	float coeff[n][3], x[n], rhs[n];
+	puts("Enter a, b and c coefficients of tridiagonal matrix, followed by d, the rhs of the equation");
 	for(i = 0; i < n; i++) {
 		scanf("%f %f %f %f", &coeff[i][0], &coeff[i][1], &coeff[i][2], &rhs[i]);
 	}
-	int found[n]; 
+	puts("The equation entered is of the form AX = B, with A being the coefficients, X is unknown, and B is right hand side of equations.");
+	if(n<32){
+		puts("Entered value of A is -\n");
+		for(i = 0; i < n; i++) {
+			if(i == 0) {
+				printf("%0.1f %0.1f ",  coeff[i][1], coeff[i][2]);
+				for(j = 0; j < n-2; j++) printf("0.0 ");
+			}
+			else if(i == n-1) {
+				for(j = 0; j < n-2; j++) printf("0.0 ");
+				printf("%0.1f %0.1f ",  coeff[i][0], coeff[i][1]);
+			}
+			else {
+				for(j = 0; j < i-1; j++) printf("0.0 ");
+				printf("%0.1f %0.1f %0.1f ",  coeff[i][0], coeff[i][1], coeff[i][2]);
+				for(j = 0; j < n - (i + 2); j++) printf("0.0 ");
+			}
+			printf("\n");
+		}
+	}
+	int found[n];
 	for(i = 0; i < n; i++) found[i] = 0;
-	float t = clock();
-	answer(n, coeff, x, n, rhs, 1.0, 1.0, found);
+	puts("Enter boundary values, first starting value then ending value");
+	float b1, b2;
+	scanf("%f", &b1);
+	scanf("%f", &b2);
+	long double t = clock();
+	answer(n, coeff, x, n, rhs, b1, b2, found);
 	t = clock() - t;
 	for(i = 0; i < n; i++) printf("%.5f\n", x[i]);
-	printf("%.5f", t/CLOCKS_PER_SEC);
+	printf("Time Taken :%0.5Lf", t/CLOCKS_PER_SEC);
 }

@@ -40,7 +40,8 @@ int main() {
 	int found[n]; for(i = 0; i < n; i++) found[i] = 0;
 	long double t = clock();
 	answer(n, coeff, x, n, rhs, 1.0, 1.0, found);
-	t = clock() - t;
 	for(i = 0; i < n; i++) printf("%.5Lf  ", x[i]);
-	printf("\n%.5Lf", t/CLOCKS_PER_SEC);
+	t = clock() - t;
+	//printf("Done\n");
+	printf("\nTime Taken: %.5Lf", t/CLOCKS_PER_SEC);
 }
